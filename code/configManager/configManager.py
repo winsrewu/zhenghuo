@@ -113,18 +113,16 @@ class ConfigManager:
                     val = val.strip()
                     if key in self.fields:
                         print(f"  {key}: {val}")
-                        if key not in field_values:
-                            field_values[key] = {}
-                        field_values[key][val] = field_values[key].get(val, []) + [alias]
+                        if val not in field_values:
+                            field_values[val] = []
+                        field_values[val].append(alias)
 
         # 检查冲突
-        print("\nConflicts:")
         has_conflict = False
-        for field, values in field_values.items():
-            for value, aliases in values.items():
-                if len(aliases) > 1:
-                    has_conflict = True
-                    print(f"  Field '{field}' has value '{value}' in configs: {', '.join(aliases)}")
+        for value, aliases in field_values.items():
+            if len(aliases) > 1:
+                has_conflict = True
+                print(f"  Value '{value}' in configs: {', '.join(aliases)}")
         if not has_conflict:
             print("  No conflicts found.")
 
