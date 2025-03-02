@@ -84,6 +84,9 @@ class ConfigManager:
         lines = []
         with open(config_path, 'r') as f:
             for line in f:
+                if line.strip().startswith('#'):
+                    lines.append(line)
+                    continue
                 key, val = line.strip().split(':', 1)
                 key = key.strip()
                 val = val.strip()
@@ -108,6 +111,8 @@ class ConfigManager:
             print(f"\nConfig: {alias} ({path})")
             with open(path, 'r') as f:
                 for line in f:
+                    if line.strip().startswith('#'):
+                        continue
                     key, val = line.strip().split(':', 1)
                     key = key.strip()
                     val = val.strip()
