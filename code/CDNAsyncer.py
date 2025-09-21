@@ -1,3 +1,4 @@
+import mimetypes
 import os
 import boto3
 from botocore.exceptions import ClientError
@@ -101,18 +102,7 @@ def display_sync_plan(sync_plan):
 
 def get_content_type(file_path):
     """获取文件内容类型"""
-    content_type = 'application/octet-stream'
-    if file_path.endswith('.html'):
-        content_type = 'text/html'
-    elif file_path.endswith('.css'):
-        content_type = 'text/css'
-    elif file_path.endswith('.js'):
-        content_type = 'application/javascript'
-    elif file_path.endswith('.png'):
-        content_type = 'image/png'
-    elif file_path.endswith('.jpg'):
-        content_type = 'image/jpeg'
-    return content_type
+    return mimetypes.guess_type(file_path)[0] or 'application/octet-stream'
 
 def execute_sync(sync_plan, local_dir, bucket_name, s3):
     """执行同步操作"""
